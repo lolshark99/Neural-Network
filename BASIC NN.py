@@ -18,12 +18,8 @@ def deriv_sigmoid(z):
     return s * (1 - s)
 
 def relu(z):
-    return np.maximum(0, z)
+    return np.max(0, z)
 
-def deriv_relu(z):
-    return (z > 0).astype(float)
-
-# Parameters init
 def parameters_init(input_size, hidden_size, output_size):
     params = {
         "W1": np.random.randn(hidden_size, input_size),
@@ -38,7 +34,7 @@ def forward_prop(X, params):
     Z1 = np.dot(params["W1"], X) + params["b1"]
     A1 = sigmoid(Z1)
     Z2 = np.dot(params["W2"], A1) + params["b2"]
-    A2 = sigmoid(Z2)  # Use sigmoid for XOR output
+    A2 = sigmoid(Z2) 
     cache = (Z1, A1, Z2, A2)
     return A2, cache
 
