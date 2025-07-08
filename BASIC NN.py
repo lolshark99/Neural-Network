@@ -1,7 +1,5 @@
 import numpy as np
-#hsdbb
-
-
+#this is a simple nn used to implement an XOR gate.
 X = np.array([
     [0, 0],
     [0, 1],
