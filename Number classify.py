@@ -58,6 +58,7 @@ for i in range(10):
         total += labels.size(0)
         accuracy = 100 * (correct / total)
     print(accuracy)
+    print(loss_init)
     X_axis.append(i)
     Y_axis.append(loss_init)
     Correct.append(correct)
