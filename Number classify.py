@@ -40,7 +40,7 @@ model = NUmber_classify(num_classes= 10)
 
 loss_function = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters() , lr = 0.001)
-for i in range(10):
+for i in range(10): #there can be more epochs if a there ia a GPU available
     model.train()
     correct = 0
     total = 0
