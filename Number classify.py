@@ -8,6 +8,8 @@ from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 X_axis = []
 Y_axis = []
+Accuracy = []
+Total = [] 
 class NUmber_classify(nn.Module):
     def __init__(self , num_classes=10):
         super(NUmber_classify , self).__init__()
@@ -38,8 +40,10 @@ model = NUmber_classify(num_classes= 10)
 
 loss_function = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters() , lr = 0.001)
-for i in range(100):
+for i in range(10):
     model.train()
+    correct = 0
+    total = 0
     loss_init = 0
     for images , labels in train_loader:
         images = images.view(images.size(0) , -1)
@@ -49,13 +53,26 @@ for i in range(100):
         loss.backward()
         optimizer.step()
         loss_init += loss.item()
+        _, predicted = torch.max(outputs , 1)
+        correct += (predicted == labels).sum().item()
+        total += labels.size(0)
+        accuracy = 100 * (correct / total)
+    print(accuracy)
     X_axis.append(i)
     Y_axis.append(loss_init)
+    Correct.append(correct)
+    Total.append(total)
+    Accuracy.append(accuracy)
 
+plt.subplot(1 , 2 , 1)
 plt.plot(X_axis , Y_axis)
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
-plt.show()        
+
+plt.subplot(1 ,2 ,2)
+plt.plot(X_axis , Accuracy)
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
         
         
  
