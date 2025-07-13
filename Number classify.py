@@ -73,7 +73,7 @@ plt.subplot(1 ,2 ,2)
 plt.plot(X_axis , Accuracy)
 plt.xlabel('Epochs')
 plt.ylabel('Accuracy')
-        
+plt.show()        
         
  
 
