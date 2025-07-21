@@ -1,0 +1,1 @@
+Made a basic NN using only numpy and one using pytorch to make a model which helps to classify digits and hence plot a loss and accuracy graph. 
