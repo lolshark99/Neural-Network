@@ -1,6 +1,7 @@
 from sklearn.datasets import fetch_california_housing
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error
 
 
 data = fetch_california_housing(as_frame=True)
@@ -18,6 +19,7 @@ def tanh(z):
     return np.tanh(z)
 
 def sigmoid(z):
+    z = np.clip(z , -500 , 500)
     return 1 / (1 + np.exp(-z))
 
 def deriv_sigmoid(z):
@@ -87,26 +89,51 @@ def update_parameters(grads , parameters):
 
 parameters = params_init(n1 , n2 , n3)
 
-for i in range(100):
-    indices = np.random.permutation(X.shape[1])
-    for i in indices:
-        x_i = X[:, i].reshape(-1, 1)     
-        y_i = Y[:, i].reshape(1, 1)      
-        
-        output, cache = forward_prop(x_i,parameters)
-        grads = back_prop(x_i, y_i, parameters, cache, output)
-        parameters = update_parameters(grads, parameters)
-output, _ = forward_prop(X, parameters)
-y_pred = output.flatten()
+epochs = 100
+mse_list = []
 y_true = Y.flatten()
 
 
-plt.figure(figsize=(8, 6))
+
+for epoch in range(epochs):
+    indices = np.random.permutation(X.shape[1])# a random shuffle of training examples
+    for i in indices:
+        x_i = X[:, i].reshape(-1, 1)
+        y_i = Y[:, i].reshape(1, 1)
+
+        output, cache = forward_prop(x_i, parameters)
+        grads = back_prop(x_i, y_i, parameters, cache, output)
+        parameters = update_parameters(grads, parameters)
+
+    if (epoch + 1) % 10 == 0:    
+        output_full, _ = forward_prop(X, parameters)
+        y_pred_full = output_full.flatten()
+        mse = mean_squared_error(y_true, y_pred_full)
+        mse_list.append(mse)
+
+
+epoch_steps = [i for i in range(1 , epochs + 1) if i % 10 == 0]  
+
+# cost vs epoch plot
+
+plt.figure(figsize=(8, 5))
+plt.plot(epoch_steps, mse_list, marker='o')
+plt.xlabel("Epoch")
+plt.ylabel("Mean Squared Error (Loss)")
+plt.title("Training Loss vs Epochs")
+plt.grid(True)
+plt.show()
+
+output_full, _ = forward_prop(X, parameters)
+y_pred = output_full.flatten()
+
+# the regression plot
+
+plt.figure(figsize=(8, 5))
 plt.scatter(y_true, y_pred, alpha=0.5, color='teal')
-plt.plot([y_true.min(), y_true.max()], [y_true.min(), y_true.max()], color='red', linestyle='--')
+plt.plot([y_true.min(), y_true.max()], [y_true.min(), y_true.max()], 'r--')  # Diagonal line
 plt.xlabel("Actual House Price")
 plt.ylabel("Predicted House Price")
 plt.title("Actual vs Predicted House Prices")
 plt.grid(True)
-plt.tight_layout()
 plt.show()
