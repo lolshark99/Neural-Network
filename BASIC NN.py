@@ -61,7 +61,7 @@ def update_parameters(params, grads, learning_rate=0.1):
     return params
 
 
-params = parameters_init(2, 2, 1)
+params = parameters_init(2, 2, 1)# it  wil be a 2 layer nn with 2 nodes in 1st and 2nd layer and 1 node in  o/p layer
 
 for i in range(10000):
     A2, cache = forward_prop(X, params)
