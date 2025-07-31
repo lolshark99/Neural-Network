@@ -69,7 +69,7 @@ for i in range(10000):
     params = update_parameters(params, grads)
 
     if i % 1000 == 0:
-        loss = np.mean((A2 - Y) ** 2)
+        loss = np.mean((A2 - Y) ** 2)# using MSE
         print(f"Iteration {i}, Loss: {loss}")
 
 print("Predictions:")
